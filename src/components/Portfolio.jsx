@@ -13,7 +13,13 @@ const cvData = {
     location: "Tezpur University, Assam, India",
     email: "mdbasit@tezu.ernet.in",
     github: "github.com/mdbasit897",
-    bio: "I am an AI-driven healthcare researcher working at the intersection of machine learning, physiological signal processing, and clinical innovation. My doctoral research focuses on developing non-invasive glucose monitoring systems using ECG signal analysis and deep learning—aiming to transform diabetes management through wearable, precision diagnostics."
+    bio: "I am an AI-driven healthcare researcher working at the intersection of machine learning, physiological signal processing, and clinical innovation. My doctoral research focuses on developing non-invasive glucose monitoring systems using ECG signal analysis and deep learning—aiming to transform diabetes management through wearable, precision diagnostics.",
+    social: {
+      googleScholar: "https://scholar.google.com/citations?user=MasyVAUAAAAJ&hl=en",
+      orcid: "https://orcid.org/0009-0006-6538-5644",
+      linkedin: "https://www.linkedin.com/in/mdbasit/",
+      twitter: "https://x.com/MdBasAz"
+    }
   },
   research: {
     focus: [
@@ -73,6 +79,88 @@ const backgroundImages = [
     credit: 'Photo by <a href="https://www.pexels.com/photo/robot-pointing-on-a-wall-8386440/" target="_blank" rel="noopener noreferrer" class="text-green-400 hover:text-green-300">Tara Winstead</a> from <a href="https://www.pexels.com" target="_blank" rel="noopener noreferrer" class="text-green-400 hover:text-green-300">Pexels</a>'
   }
 ];
+
+// Social Media Links Component
+const SocialMediaLinks = ({ variant = 'hero', className = '' }) => {
+  const socialLinks = [
+    {
+      name: 'Google Scholar',
+      url: cvData.personal.social.googleScholar,
+      icon: (
+        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M5.242 13.769L0 9.5 12 0l12 9.5-5.242 4.269C17.548 11.249 14.978 9.5 12 9.5c-2.977 0-5.548 1.748-6.758 4.269zM12 10a7 7 0 1 0 0 14 7 7 0 0 0 0-14z"/>
+        </svg>
+      ),
+      color: 'text-blue-500 hover:text-blue-400'
+    },
+    {
+      name: 'ORCID',
+      url: cvData.personal.social.orcid,
+      icon: (
+        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0C5.372 0 0 5.372 0 12s5.372 12 12 12 12-5.372 12-12S18.628 0 12 0zM7.369 4.378c.525 0 .947.431.947.947 0 .525-.422.947-.947.947-.525 0-.946-.422-.946-.947 0-.525.421-.947.946-.947zm-.722 3.038h1.444v10.041H6.647V7.416zm3.562 0h3.9c3.712 0 5.344 2.653 5.344 5.025 0 2.578-2.016 5.016-5.325 5.016h-3.919V7.416zm1.444 1.303v7.444h2.297c2.359 0 3.644-1.506 3.644-3.722 0-2.016-1.284-3.722-3.663-3.722h-2.278z"/>
+        </svg>
+      ),
+      color: 'text-green-500 hover:text-green-400'
+    },
+    {
+      name: 'LinkedIn',
+      url: cvData.personal.social.linkedin,
+      icon: (
+        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+        </svg>
+      ),
+      color: 'text-blue-600 hover:text-blue-500'
+    },
+    {
+      name: 'Twitter',
+      url: cvData.personal.social.twitter,
+      icon: (
+        <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/>
+        </svg>
+      ),
+      color: 'text-sky-500 hover:text-sky-400'
+    }
+  ];
+
+  if (variant === 'hero') {
+    return (
+      <div className={`flex justify-center space-x-6 mb-8 ${className}`}>
+        {socialLinks.slice(0, 2).map((social) => ( // Only Scholar and ORCID in hero
+          <a
+            key={social.name}
+            href={social.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`${social.color} transition-all duration-300 transform hover:scale-110 hover:shadow-lg p-3 rounded-full bg-white/5 backdrop-blur-sm border border-gray-700 hover:border-current`}
+            title={social.name}
+          >
+            {social.icon}
+          </a>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className={`flex justify-center space-x-4 ${className}`}>
+      {socialLinks.map((social) => (
+        <a
+          key={social.name}
+          href={social.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={`${social.color} transition-all duration-300 transform hover:scale-110 hover:shadow-lg p-3 rounded-full bg-white/5 backdrop-blur-sm border border-gray-700 hover:border-current`}
+          title={social.name}
+        >
+          {social.icon}
+        </a>
+      ))}
+    </div>
+  );
+};
 
 // Dynamic Background Component with Credits
 const DynamicBackground = () => {
@@ -382,9 +470,10 @@ const Portfolio = () => {
             {/* Profile Picture */}
             <ProfilePicture />
 
+            {/* Name in Single Line */}
             <h1 className="text-5xl md:text-8xl font-bold mb-6 leading-tight">
-              <span className="text-white block">Md Basit</span>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-blue-500 block">Azam</span>
+              <span className="text-white">Md Basit </span>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-blue-500">Azam</span>
             </h1>
 
             <p className="text-xl md:text-3xl text-gray-300 mb-6 leading-relaxed font-light">
@@ -411,9 +500,12 @@ const Portfolio = () => {
               </a>
             </div>
 
-            <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed">
               {cvData.personal.bio}
             </p>
+
+            {/* Academic Social Media Links */}
+            <SocialMediaLinks variant="hero" />
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
               <button
@@ -611,9 +703,16 @@ const Portfolio = () => {
       {/* Contact Section */}
       <section id="contact" className="py-24 px-4 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
-          <h2 className="text-4xl md:text-6xl font-bold mb-20">
+          <h2 className="text-4xl md:text-6xl font-bold mb-12">
             Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-blue-500">Connect</span>
           </h2>
+
+          {/* Social Media Links */}
+          <div className="mb-16">
+            <h3 className="text-2xl font-bold text-white mb-8 text-center">Follow My Research</h3>
+            <SocialMediaLinks variant="contact" />
+          </div>
+
           <div className="grid md:grid-cols-3 gap-8 mb-16">
             <div className="group bg-gray-900/60 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 hover:border-green-500 transition-all duration-500 hover:transform hover:scale-105">
               <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -668,7 +767,7 @@ const Portfolio = () => {
       <footer className="bg-black/80 backdrop-blur-sm border-t border-gray-800/50 py-12 px-4 relative z-10">
         <div className="max-w-6xl mx-auto text-center">
           <p className="text-gray-400 text-lg">
-            © 2025 Md Basit Azam.
+            © 2025 Md Basit Azam. Built with React & Modern Design System
           </p>
         </div>
       </footer>
