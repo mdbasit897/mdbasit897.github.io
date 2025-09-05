@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debug - Portfolio Test</title>
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .test {
+            text-align: center;
+            padding: 2rem;
+            border: 2px solid #76B900;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test">
+        <h1>🎉 GitHub Pages is Working!</h1>
+        <p>Your deployment is successful.</p>
+        <p>Repository: mdbasit897.github.io</p>
+        <p>Timestamp: <span id="time"></span></p>
+    </div>
+
+    <script>
+        document.getElementById('time').textContent = new Date().toISOString();
+    </script>
+</body>
+</html>
