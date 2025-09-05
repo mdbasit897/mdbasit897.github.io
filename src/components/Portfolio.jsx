@@ -5,9 +5,15 @@ const cvData = {
   personal: {
     name: "Md Basit Azam",
     title: "AI/ML Research Fellow",
+    department: "Department of Computer Science & Engineering",
+    university: "Tezpur University",
+    universityUrl: "https://www.tezu.ernet.in/",
+    supervisor: "Dr. Sarangthem Ibotombi Singh",
+    supervisorUrl: "https://agnigarh.tezu.ernet.in/~sis/index.html",
     location: "Tezpur University, Assam, India",
     email: "mdbasit@tezu.ernet.in",
-    github: "github.com/mdbasit897"
+    github: "github.com/mdbasit897",
+    bio: "I am an AI-driven healthcare researcher working at the intersection of machine learning, physiological signal processing, and clinical innovation. My doctoral research focuses on developing non-invasive glucose monitoring systems using ECG signal analysis and deep learning—aiming to transform diabetes management through wearable, precision diagnostics."
   },
   research: {
     focus: [
@@ -44,7 +50,7 @@ const cvData = {
   ]
 };
 
-// Background images with credits - Restored full array
+// Background images with credits
 const backgroundImages = [
   {
     url: "/backgrounds/1p.jpg",
@@ -216,20 +222,84 @@ const FloatingParticles = () => {
   );
 };
 
+// Mobile Menu Component
+const MobileMenu = ({ isOpen, setIsOpen, sections, activeSection, scrollToSection }) => {
+  return (
+    <div className={`md:hidden fixed inset-0 z-40 transition-all duration-300 ${isOpen ? 'visible' : 'invisible'}`}>
+      {/* Backdrop */}
+      <div
+        className={`absolute inset-0 bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
+        onClick={() => setIsOpen(false)}
+      />
+
+      {/* Menu */}
+      <div className={`absolute top-16 left-4 right-4 bg-gray-900/95 backdrop-blur-xl border border-gray-700 rounded-2xl p-6 transform transition-all duration-300 ${isOpen ? 'scale-100 opacity-100' : 'scale-95 opacity-0'}`}>
+        <div className="space-y-4">
+          {sections.map((section) => (
+            <button
+              key={section}
+              onClick={() => {
+                scrollToSection(section);
+                setIsOpen(false);
+              }}
+              className={`w-full text-left capitalize transition-all duration-300 px-4 py-3 rounded-lg ${
+                activeSection === section 
+                  ? 'text-green-500 bg-green-500/10 border border-green-500/30' 
+                  : 'text-gray-300 hover:text-white hover:bg-white/5'
+              }`}
+            >
+              {section}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Main Portfolio Component
 const Portfolio = () => {
   const [activeSection, setActiveSection] = useState('hero');
   const [isLoaded, setIsLoaded] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     setIsLoaded(true);
+
+    // Intersection Observer for section detection
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      {
+        threshold: [0.1, 0.5],
+        rootMargin: '-20% 0px -20% 0px'
+      }
+    );
+
+    // Observe all sections
+    const sectionElements = document.querySelectorAll('section[id]');
+    sectionElements.forEach((section) => observer.observe(section));
+
+    return () => observer.disconnect();
   }, []);
 
   const sections = ['hero', 'about', 'research', 'skills', 'publications', 'contact'];
 
   const scrollToSection = (sectionId) => {
     setActiveSection(sectionId);
-    // In a real implementation, you'd scroll to the actual section
+    const element = document.getElementById(sectionId);
+    if (element) {
+      const offsetTop = element.offsetTop - 80; // Account for fixed nav height
+      window.scrollTo({
+        top: offsetTop,
+        behavior: 'smooth'
+      });
+    }
   };
 
   return (
@@ -263,6 +333,8 @@ const Portfolio = () => {
               <span className="text-white">Md Basit</span>
               <span className="text-green-500 ml-2">Azam</span>
             </div>
+
+            {/* Desktop Navigation */}
             <div className="hidden md:flex space-x-8">
               {sections.map((section) => (
                 <button
@@ -278,12 +350,33 @@ const Portfolio = () => {
                 </button>
               ))}
             </div>
+
+            {/* Mobile Menu Button */}
+            <button
+              className="md:hidden p-2 rounded-lg hover:bg-white/5 transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <div className="w-6 h-6 flex flex-col justify-center space-y-1">
+                <div className={`h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''}`} />
+                <div className={`h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? 'opacity-0' : ''}`} />
+                <div className={`h-0.5 bg-white transition-all duration-300 ${mobileMenuOpen ? '-rotate-45 -translate-y-1.5' : ''}`} />
+              </div>
+            </button>
           </div>
         </div>
+
+        {/* Mobile Menu */}
+        <MobileMenu
+          isOpen={mobileMenuOpen}
+          setIsOpen={setMobileMenuOpen}
+          sections={sections}
+          activeSection={activeSection}
+          scrollToSection={scrollToSection}
+        />
       </nav>
 
       {/* Hero Section */}
-      <section className="min-h-screen flex items-center justify-center relative pt-16 z-10">
+      <section id="hero" className="min-h-screen flex items-center justify-center relative pt-16 z-10">
         <div className="text-center max-w-5xl mx-auto px-4">
           <div className={`transition-all duration-1000 ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             {/* Profile Picture */}
@@ -294,15 +387,32 @@ const Portfolio = () => {
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-blue-500 block">Azam</span>
             </h1>
 
-            <p className="text-xl md:text-3xl text-gray-300 mb-8 leading-relaxed font-light">
-              AI/ML Research Fellow specializing in
-              <span className="text-green-500 font-semibold"> Health Informatics</span> &
-              <span className="text-blue-500 font-semibold"> Clinical AI</span>
+            <p className="text-xl md:text-3xl text-gray-300 mb-6 leading-relaxed font-light">
+              {cvData.personal.title} | {cvData.personal.department}
             </p>
 
+            <div className="text-lg md:text-xl text-gray-400 mb-8 leading-relaxed">
+              <a
+                href={cvData.personal.universityUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-green-500 hover:text-green-400 transition-colors duration-300 underline decoration-green-500/50 hover:decoration-green-400 font-semibold"
+              >
+                {cvData.personal.university}
+              </a>
+              {" • "}Supervised by{" "}
+              <a
+                href={cvData.personal.supervisorUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-blue-500 hover:text-blue-400 transition-colors duration-300 underline decoration-blue-500/50 hover:decoration-blue-400 font-semibold"
+              >
+                {cvData.personal.supervisor}
+              </a>
+            </div>
+
             <p className="text-lg md:text-xl text-gray-400 mb-12 max-w-3xl mx-auto leading-relaxed">
-              Developing cutting-edge solutions for non-invasive glucose monitoring through
-              ECG signal processing and deep learning architectures
+              {cvData.personal.bio}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
@@ -333,8 +443,97 @@ const Portfolio = () => {
         </div>
       </section>
 
+      {/* About Section */}
+      <section id="about" className="py-24 px-4 relative z-10 min-h-screen flex items-center">
+        <div className="max-w-7xl mx-auto">
+          <h2 className="text-4xl md:text-6xl font-bold text-center mb-20">
+            About <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-blue-500">Me</span>
+          </h2>
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="space-y-8">
+              {/* Position and Affiliation */}
+              <div className="bg-gradient-to-r from-green-500/10 to-blue-500/10 rounded-2xl p-6 backdrop-blur-sm border border-gray-700/50">
+                <h3 className="text-2xl font-bold text-white mb-4">Current Position</h3>
+                <p className="text-xl text-green-400 font-semibold mb-2">{cvData.personal.title}</p>
+                <p className="text-lg text-gray-300 mb-3">
+                  {cvData.personal.department},{" "}
+                  <a
+                    href={cvData.personal.universityUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-400 hover:text-blue-300 transition-colors duration-300 underline decoration-blue-400/50 hover:decoration-blue-300"
+                  >
+                    {cvData.personal.university}
+                  </a>
+                </p>
+                <p className="text-gray-400">
+                  Supervised by{" "}
+                  <a
+                    href={cvData.personal.supervisorUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-green-400 hover:text-green-300 transition-colors duration-300 underline decoration-green-400/50 hover:decoration-green-300 font-medium"
+                  >
+                    {cvData.personal.supervisor}
+                  </a>
+                </p>
+              </div>
+
+              {/* Bio */}
+              <div className="space-y-6">
+                <p className="text-lg text-gray-300 leading-relaxed">
+                  {cvData.personal.bio}
+                </p>
+              </div>
+
+              {/* Stats */}
+              <div className="grid grid-cols-2 gap-6 pt-8">
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-green-500 mb-2">2+</div>
+                  <div className="text-gray-400">Years Research</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-3xl font-bold text-blue-500 mb-2">5+</div>
+                  <div className="text-gray-400">Publications</div>
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="bg-gradient-to-r from-green-500/20 to-blue-500/20 rounded-2xl p-8 backdrop-blur-sm border border-gray-700">
+                <h3 className="text-2xl font-bold text-white mb-6">Research Focus</h3>
+                <ul className="space-y-4">
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2 mr-3"></div>
+                    <span className="text-gray-300">Non-invasive glucose monitoring systems</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 mr-3"></div>
+                    <span className="text-gray-300">ECG signal processing & deep learning</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 mr-3"></div>
+                    <span className="text-gray-300">Wearable precision diagnostics</span>
+                  </li>
+                  <li className="flex items-start">
+                    <div className="w-2 h-2 bg-cyan-500 rounded-full mt-2 mr-3"></div>
+                    <span className="text-gray-300">Clinical AI validation studies</span>
+                  </li>
+                </ul>
+
+                <div className="mt-8 pt-6 border-t border-gray-600">
+                  <h4 className="text-lg font-bold text-white mb-4">Impact Goal</h4>
+                  <p className="text-gray-300 text-sm leading-relaxed">
+                    Transform diabetes management through innovative, accessible, and precise diagnostic technologies.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Research Focus Section */}
-      <section className="py-24 px-4 relative z-10">
+      <section id="research" className="py-24 px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-bold text-center mb-20">
             Research <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-blue-500">Focus</span>
@@ -359,7 +558,7 @@ const Portfolio = () => {
       </section>
 
       {/* Skills Section */}
-      <section className="py-24 px-4 relative z-10">
+      <section id="skills" className="py-24 px-4 relative z-10">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-bold text-center mb-20">
             Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-blue-500">Expertise</span>
@@ -369,7 +568,7 @@ const Portfolio = () => {
       </section>
 
       {/* Publications Section */}
-      <section className="py-24 px-4 relative z-10">
+      <section id="publications" className="py-24 px-4 relative z-10">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-bold text-center mb-20">
             Recent <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-blue-500">Publications</span>
@@ -410,7 +609,7 @@ const Portfolio = () => {
       </section>
 
       {/* Contact Section */}
-      <section className="py-24 px-4 relative z-10">
+      <section id="contact" className="py-24 px-4 relative z-10">
         <div className="max-w-5xl mx-auto text-center">
           <h2 className="text-4xl md:text-6xl font-bold mb-20">
             Let's <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-blue-500">Connect</span>
@@ -423,7 +622,12 @@ const Portfolio = () => {
                 </svg>
               </div>
               <h3 className="font-bold text-green-500 mb-3 text-xl">Email</h3>
-              <p className="text-gray-300 text-lg">{cvData.personal.email}</p>
+              <a
+                href={`mailto:${cvData.personal.email}`}
+                className="text-gray-300 text-lg hover:text-green-400 transition-colors duration-300"
+              >
+                {cvData.personal.email}
+              </a>
             </div>
             <div className="group bg-gray-900/60 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 hover:border-green-500 transition-all duration-500 hover:transform hover:scale-105">
               <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -432,7 +636,14 @@ const Portfolio = () => {
                 </svg>
               </div>
               <h3 className="font-bold text-green-500 mb-3 text-xl">GitHub</h3>
-              <p className="text-gray-300 text-lg">{cvData.personal.github}</p>
+              <a
+                href={`https://${cvData.personal.github}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-gray-300 text-lg hover:text-green-400 transition-colors duration-300"
+              >
+                {cvData.personal.github}
+              </a>
             </div>
             <div className="group bg-gray-900/60 backdrop-blur-sm border border-gray-700 rounded-2xl p-8 hover:border-green-500 transition-all duration-500 hover:transform hover:scale-105">
               <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -442,10 +653,11 @@ const Portfolio = () => {
                 </svg>
               </div>
               <h3 className="font-bold text-green-500 mb-3 text-xl">Location</h3>
-              <p className="text-gray-300 text-lg">Department of Computer Science & Engineering.
-              Tezpur University,
-              Napaam - 784 028, Tezpur,
-              Assam, INDIA.
+              <p className="text-gray-300 text-lg">
+                Department of Computer Science & Engineering.<br/>
+                Tezpur University,<br/>
+                Napaam - 784 028, Tezpur,<br/>
+                Assam, INDIA.
               </p>
             </div>
           </div>
@@ -456,7 +668,7 @@ const Portfolio = () => {
       <footer className="bg-black/80 backdrop-blur-sm border-t border-gray-800/50 py-12 px-4 relative z-10">
         <div className="max-w-6xl mx-auto text-center">
           <p className="text-gray-400 text-lg">
-            © 2025 Md Basit Azam. Built with React & Modern Design System
+            © 2025 Md Basit Azam.
           </p>
         </div>
       </footer>
@@ -493,6 +705,10 @@ const Portfolio = () => {
         
         .animate-spin-slow {
           animation: spin-slow 8s linear infinite;
+        }
+        
+        html {
+          scroll-behavior: smooth;
         }
       `}</style>
     </div>
