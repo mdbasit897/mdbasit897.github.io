@@ -4,7 +4,7 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react()],
-  base: '/mdbasit897.github.io/', // This matches GitHub's serving path from your screenshot
+  base: '/', // For username.github.io repositories, use root path
   build: {
     outDir: 'dist',
     assetsDir: 'assets',
