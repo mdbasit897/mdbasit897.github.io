@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm ci --only=production
-          npm install terser --save-dev  # Required for Vite
+          npm install terser --save-dev
 
       - name: Build
         run: npm run build
