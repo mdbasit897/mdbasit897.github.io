@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 const cvData = {
   personal: {
     name: "Md Basit Azam",
-    title: "AI/ML Research Fellow",
+    title: "Doctoral Research Fellow",
     department: "Department of Computer Science & Engineering",
     university: "Tezpur University",
     universityUrl: "https://www.tezu.ernet.in/",
@@ -767,7 +767,7 @@ const Portfolio = () => {
       <footer className="bg-black/80 backdrop-blur-sm border-t border-gray-800/50 py-12 px-4 relative z-10">
         <div className="max-w-6xl mx-auto text-center">
           <p className="text-gray-400 text-lg">
-            © 2025 Md Basit Azam. Built with React & Modern Design System
+            © 2025 Md Basit Azam.
           </p>
         </div>
       </footer>
