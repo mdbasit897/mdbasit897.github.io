@@ -182,7 +182,7 @@ const DynamicBackground = () => {
         <div
           key={index}
           className={`absolute inset-0 transition-opacity duration-2000 ${
-            index === currentImageIndex ? 'opacity-70' : 'opacity-0'
+            index === currentImageIndex ? 'opacity-60' : 'opacity-0'
           }`}
           style={{
             backgroundImage: `url(${imageData.url})`,
@@ -192,7 +192,7 @@ const DynamicBackground = () => {
           }}
         />
       ))}
-      <div className="absolute inset-0 bg-black bg-opacity-40" />
+      <div className="absolute inset-0 bg-black bg-opacity-50" />
 
       {/* Image Credit - positioned at bottom right */}
       <div className="absolute bottom-4 right-4 z-10">
