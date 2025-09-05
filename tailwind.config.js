@@ -6,9 +6,13 @@ export default {
   ],
   theme: {
     extend: {
+      // colors: {
+      //   'nvidia-black': '#000000',
+      //   'nvidia-green': '#76B900',
+      // },
       colors: {
-        'nvidia-black': '#000000',
-        'nvidia-green': '#76B900',
+        'primary': '#22c55e', // Your preferred primary color
+        'secondary': '#3b82f6', // Your preferred secondary color
       },
       fontFamily: {
         'sans': ['Inter', 'system-ui', '-apple-system', 'sans-serif'],
